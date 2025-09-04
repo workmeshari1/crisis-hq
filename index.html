@@ -1,24 +1,227 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيقك الرائع</title>
+    <title>نظام إدارة الكوارث والأزمات الصناعية</title>
     <style>
-        body, html {
+        * {
             margin: 0;
             padding: 0;
-            height: 100%;
-            overflow: hidden; /* لمنع ظهور شريط التمرير المزدوج */
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .app-container {
-            width: 100%;
-            height: 100%;
+        
+        body {
+            background: linear-gradient(135deg, #1a2a3a 0%, #0d1b2a 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        header {
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+        
+        .description {
+            font-size: 1.2rem;
+            color: #cccccc;
+            margin-bottom: 30px;
+        }
+        
+        .main-button {
+            background: linear-gradient(135deg, #ff6600 0%, #e55a00 100%);
+            color: white;
+            padding: 20px 40px;
             border: none;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 25px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+        }
+        
+        .main-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 102, 0, 0.4);
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 40px 0;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 12px;
+            flex: 1;
+            min-width: 200px;
+            max-width: 250px;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #ff6600;
+        }
+        
+        .instructions {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: right;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding: 20px;
+            color: #888;
+            font-size: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* تصميم للهواتف */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .description {
+                font-size: 1rem;
+            }
+            
+            .feature {
+                min-width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <iframe src="https://disaster-app.streamlit.app/" class="app-container"></iframe>
+    <div class="container">
+        <header>
+            <h1>⚡ نظام إدارة الكوارث والأزمات الصناعية</h1>
+            <p class="description">منصة ذكية متكاملة للتعامل مع حالات الطوارئ والكوارث باستخدام أحدث تقنيات الذكاء الاصطناعي</p>
+        </header>
+        
+        <button class="main-button" onclick="openAppPopup()">
+            الدخول إلى النظام الأساسي
+        </button>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🔍</div>
+                <h3>بحث ذكي</h3>
+                <p>ابحث عن الإجراءات المناسبة لأي حالة طارئة في ثوانٍ</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <h3>قاعدة بيانات شاملة</h3>
+                <p>مئات السيناريوهات والإجراءات المحدثة باستمرار</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>استجابة فورية</h3>
+                <p>واجهة مصممة لاتخاذ القرارات السريعة والدقيقة</p>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>🔒 تعليمات الدخول الآمن:</h3>
+            <p>1. انقر على زر "الدخول إلى النظام الأساسي"</p>
+            <p>2. سيتم فتح النظام في نافذة جديدة</p>
+            <p>3. أدخل الرقم السري للوصول إلى النظام</p>
+            <p>4. استخدم ميزات البحث الذكي المتاحة</p>
+        </div>
+
+        <footer>
+            <p>© 2023 نظام إدارة الكوارث والأزمات الصناعية. جميع الحقوق محفوظة.</p>
+            <p>الإصدار 2.0 | تم التطوير بأحدث التقنيات</p>
+        </footer>
+    </div>
+
+    <script>
+        function openAppPopup() {
+            // فتح التطبيق في نافذة جديدة
+            const popup = window.open(
+                'https://your-app-name.streamlit.app', 
+                'disasterApp',
+                'width=1200,height=700,scrollbars=yes,resizable=yes,toolbar=no,location=no,menubar=no,status=no'
+            );
+            
+            if (popup) {
+                popup.focus();
+                
+                // إضافة مستمع لفحص إذا تم إغلاق النافذة
+                const checkPopupClosed = setInterval(() => {
+                    if (popup.closed) {
+                        clearInterval(checkPopupClosed);
+                        // يمكنك إضافة أي إجراء تريده عند إغلاق النافذة
+                    }
+                }, 1000);
+            } else {
+                alert('يبدو أن المتصفح منع فتح النافذة المنبثقة. يرجى السماح بالنوافذ المنبثقة لهذا الموقع.');
+                
+                // بديل: إظهار رسالة توجيهية
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.background = 'rgba(0,0,0,0.9)';
+                overlay.style.zIndex = '10000';
+                overlay.style.display = 'flex';
+                overlay.style.flexDirection = 'column';
+                overlay.style.justifyContent = 'center';
+                overlay.style.alignItems = 'center';
+                overlay.style.color = 'white';
+                
+                overlay.innerHTML = `
+                    <h2>تعذر فتح النافذة المنبثقة</h2>
+                    <p>يرجى السماح بالنوافذ المنبثقة لهذا الموقع</p>
+                    <p>أو انقر على الرابط أدناه لفتح التطبيق:</p>
+                    <a href="https://crisis-app.streamlit.app" 
+                       style="color: #ff6600; font-size: 18px; margin: 20px; text-decoration: underline;">
+                        فتح تطبيق إدارة الكوارث
+                    </a>
+                    <button onclick="document.body.removeChild(this.parentElement)" 
+                            style="background: #ff6600; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                        إغلاق
+                    </button>
+                `;
+                
+                document.body.appendChild(overlay);
+            }
+        }
+        
+        // فتح النافذة تلقائياً بعد تحميل الصفحة (اختياري)
+        window.addEventListener('load', function() {
+            console.log('الصفحة جاهزة - نظام إدارة الكوارث');
+        });
+    </script>
 </body>
 </html>
