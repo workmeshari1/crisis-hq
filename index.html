@@ -94,6 +94,14 @@
             text-align: right;
         }
         
+        .status-alert {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid red;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
         footer {
             margin-top: 50px;
             padding: 20px;
@@ -125,7 +133,11 @@
             <p class="description">منصة ذكية متكاملة للتعامل مع حالات الطوارئ والكوارث باستخدام أحدث تقنيات الذكاء الاصطناعي</p>
         </header>
         
-        <button class="main-button" onclick="openAppPopup()">
+        <div class="status-alert">
+            <p>⚠️ التطبيق قيد الصيانة. جارٍ حل المشكلة التقنية.</p>
+        </div>
+        
+        <button class="main-button" onclick="openApp()">
             الدخول إلى النظام الأساسي
         </button>
         
@@ -152,7 +164,7 @@
         <div class="instructions">
             <h3>🔒 تعليمات الدخول الآمن:</h3>
             <p>1. انقر على زر "الدخول إلى النظام الأساسي"</p>
-            <p>2. سيتم فتح النظام في نافذة جديدة</p>
+            <p>2. سيتم توجيهك إلى النظام</p>
             <p>3. أدخل الرقم السري للوصول إلى النظام</p>
             <p>4. استخدم ميزات البحث الذكي المتاحة</p>
         </div>
@@ -164,65 +176,27 @@
     </div>
 
     <script>
-        function openAppPopup() {
-            // فتح التطبيق في نافذة جديدة
-            const popup = window.open(
-                'https://crisis-app.streamlit.app', 
-                'disasterApp',
-                'width=1200,height=700,scrollbars=yes,resizable=yes,toolbar=no,location=no,menubar=no,status=no'
-            );
-            
-            if (popup) {
-                popup.focus();
-                
-                // إضافة مستمع لفحص إذا تم إغلاق النافذة
-                const checkPopupClosed = setInterval(() => {
-                    if (popup.closed) {
-                        clearInterval(checkPopupClosed);
-                        // يمكنك إضافة أي إجراء تريده عند إغلاق النافذة
-                    }
-                }, 1000);
-            } else {
-                alert('يبدو أن المتصفح منع فتح النافذة المنبثقة. يرجى السماح بالنوافذ المنبثقة لهذا الموقع.');
-                
-                // بديل: إظهار رسالة توجيهية
-                const overlay = document.createElement('div');
-                overlay.style.position = 'fixed';
-                overlay.style.top = '0';
-                overlay.style.left = '0';
-                overlay.style.width = '100%';
-                overlay.style.height = '100%';
-                overlay.style.background = 'rgba(0,0,0,0.9)';
-                overlay.style.zIndex = '10000';
-                overlay.style.display = 'flex';
-                overlay.style.flexDirection = 'column';
-                overlay.style.justifyContent = 'center';
-                overlay.style.alignItems = 'center';
-                overlay.style.color = 'white';
-                
-                overlay.innerHTML = `
-                    <h2>تعذر فتح النافذة المنبثقة</h2>
-                    <p>يرجى السماح بالنوافذ المنبثقة لهذا الموقع</p>
-                    <p>أو انقر على الرابط أدناه لفتح التطبيق:</p>
-                    <a href="https://crisis-app.streamlit.app" 
-                       style="color: #ff6600; font-size: 18px; margin: 20px; text-decoration: underline;">
-                        فتح تطبيق إدارة الكوارث
-                    </a>
-                    <button onclick="document.body.removeChild(this.parentElement)" 
-                            style="background: #ff6600; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
-                        إغلاق
-                    </button>
-                `;
-                
-                document.body.appendChild(overlay);
-            }
+        function openApp() {
+            // توجيه مباشر إلى التطبيق (بدون نافذة منبثقة)
+            window.location.href = 'https://crisis-app.streamlit.app';
         }
         
-        // فتح النافذة تلقائياً بعد تحميل الصفحة (اختياري)
+        // فحص إذا كان التطبيق يعمل
+        function checkAppStatus() {
+            fetch('https://crisis-app.streamlit.app', { mode: 'no-cors' })
+                .then(() => {
+                    document.querySelector('.status-alert').style.display = 'none';
+                })
+                .catch(() => {
+                    document.querySelector('.status-alert').style.display = 'block';
+                });
+        }
+        
+        // فتح النافذة تلقائياً بعد تحميل الصفحة
         window.addEventListener('load', function() {
             console.log('الصفحة جاهزة - نظام إدارة الكوارث');
+            checkAppStatus();
         });
     </script>
 </body>
 </html>
-
