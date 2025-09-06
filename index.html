@@ -225,7 +225,7 @@
         </div>
 
         <footer>
-            <p>© 2025 نظام إدارة الكوارث والأزمات الصناعية. جميع الحقوق محفوظة.</p>
+            <p>© 2023 نظام إدارة الكوارث والأزمات الصناعية. جميع الحقوق محفوظة.</p>
             <p>الإصدار 2.0 | تم التطوير بأحدث التقنيات</p>
         </footer>
     </div>
@@ -240,15 +240,14 @@
                 id="appFrame"
                 src="about:blank"
                 onload="hideLoading()"
-                allow="camera; microphone; fullscreen"
-                sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-modals"
+                sandbox="allow-forms allow-scripts allow-same-origin"
             ></iframe>
         </div>
     </div>
 
     <script>
-        // استبدل هذا الرابط برابط تطبيقك على Streamlit
-       const APP_URL = 'https://crisis-app.streamlit.app/?embed=true';
+        // استبدل هذا الرابط برابط تطبيقك على Streamlit مع المعاملات
+        const APP_URL = 'https://crisis-app.streamlit.app/?embed=true&show_footer=false&show_toolbar=false&embedded=true';
         
         function openAppPopup() {
             const overlay = document.getElementById('appOverlay');
@@ -291,32 +290,9 @@
         // منع الإغلاق العرضي عند النقر خارج النافذة
         document.getElementById('appOverlay').addEventListener('click', function(event) {
             if (event.target === this) {
-                // يمكنك إضافة رسالة تأكيد هنا إذا أردت
-                // if (confirm('هل تريد إغلاق التطبيق؟')) {
-                //     closeApp();
-                // }
+                event.stopPropagation();
             }
         });
-        
-        // فتح النافذة تلقائياً بعد تحميل الصفحة (اختياري)
-        window.addEventListener('load', function() {
-            console.log('الصفحة جاهزة - نظام إدارة الكوارث');
-            
-            // فحص إذا كان التطبيق يعمل (اختياري)
-            checkAppStatus();
-        });
-        
-        // دالة للتحقق من حالة التطبيق (اختياري)
-        function checkAppStatus() {
-            fetch(APP_URL, { mode: 'no-cors' })
-                .then(() => {
-                    console.log('التطبيق يعمل بشكل طبيعي');
-                })
-                .catch((error) => {
-                    console.warn('قد يكون هناك مشكلة في التطبيق:', error);
-                });
-        }
     </script>
 </body>
 </html>
-
