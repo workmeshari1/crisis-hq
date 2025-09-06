@@ -94,12 +94,60 @@
             text-align: right;
         }
         
-        .status-alert {
-            background: rgba(255, 0, 0, 0.2);
-            border: 1px solid red;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
+        .app-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 10000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .app-container {
+            width: 95%;
+            height: 90%;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .app-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #1a2a3a;
+            font-size: 18px;
         }
         
         footer {
@@ -123,6 +171,16 @@
             .feature {
                 min-width: 100%;
             }
+            
+            .main-button {
+                padding: 16px 32px;
+                font-size: 1.1rem;
+            }
+            
+            .app-container {
+                width: 98%;
+                height: 85%;
+            }
         }
     </style>
 </head>
@@ -133,12 +191,8 @@
             <p class="description">منصة ذكية متكاملة للتعامل مع حالات الطوارئ والكوارث باستخدام أحدث تقنيات الذكاء الاصطناعي</p>
         </header>
         
-        <div class="status-alert">
-            <p>⚠️ التطبيق قيد الصيانة. جارٍ حل المشكلة التقنية.</p>
-        </div>
-        
-        <button class="main-button" onclick="openApp()">
-            الدخول إلى النظام الأساسي
+        <button class="main-button" onclick="openAppPopup()">
+            🚀 الدخول إلى النظام الأساسي
         </button>
         
         <div class="features">
@@ -164,9 +218,10 @@
         <div class="instructions">
             <h3>🔒 تعليمات الدخول الآمن:</h3>
             <p>1. انقر على زر "الدخول إلى النظام الأساسي"</p>
-            <p>2. سيتم توجيهك إلى النظام</p>
+            <p>2. سيتم فتح النظام في نافذة مدمجة آمنة</p>
             <p>3. أدخل الرقم السري للوصول إلى النظام</p>
             <p>4. استخدم ميزات البحث الذكي المتاحة</p>
+            <p>5. يمكنك إغلاق النافذة بالضغط على ✕ في الأعلى</p>
         </div>
 
         <footer>
@@ -175,28 +230,92 @@
         </footer>
     </div>
 
+    <!-- نافذة التطبيق المضمنة -->
+    <div class="app-overlay" id="appOverlay">
+        <div class="app-container">
+            <button class="close-btn" onclick="closeApp()">✕</button>
+            <div class="loading" id="loading">🚀 جاري تحميل النظام...</div>
+            <iframe 
+                class="app-iframe" 
+                id="appFrame"
+                src="about:blank"
+                onload="hideLoading()"
+                allow="camera; microphone; fullscreen"
+                sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-modals"
+            ></iframe>
+        </div>
+    </div>
+
     <script>
-        function openApp() {
-            // توجيه مباشر إلى التطبيق (بدون نافذة منبثقة)
-            window.location.href = 'https://crisis-app.streamlit.app';
+        // استبدل هذا الرابط برابط تطبيقك على Streamlit
+        const APP_URL = 'https://crisis-app.streamlit.app';
+        
+        function openAppPopup() {
+            const overlay = document.getElementById('appOverlay');
+            const iframe = document.getElementById('appFrame');
+            const loading = document.getElementById('loading');
+            
+            // إظهار النافذة
+            overlay.style.display = 'flex';
+            loading.style.display = 'block';
+            
+            // تحميل التطبيق بعد تأخير بسيط لضمان عرض رسالة التحميل
+            setTimeout(() => {
+                iframe.src = APP_URL;
+            }, 300);
         }
         
-        // فحص إذا كان التطبيق يعمل
-        function checkAppStatus() {
-            fetch('https://crisis-app.streamlit.app', { mode: 'no-cors' })
-                .then(() => {
-                    document.querySelector('.status-alert').style.display = 'none';
-                })
-                .catch(() => {
-                    document.querySelector('.status-alert').style.display = 'block';
-                });
+        function closeApp() {
+            const overlay = document.getElementById('appOverlay');
+            const iframe = document.getElementById('appFrame');
+            const loading = document.getElementById('loading');
+            
+            // إخفاء النافذة وإيقاف التطبيق
+            overlay.style.display = 'none';
+            iframe.src = 'about:blank';
+            loading.style.display = 'block';
         }
         
-        // فتح النافذة تلقائياً بعد تحميل الصفحة
+        function hideLoading() {
+            const loading = document.getElementById('loading');
+            loading.style.display = 'none';
+        }
+        
+        // إغلاق النافذة عند الضغط على زر Escape
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeApp();
+            }
+        });
+        
+        // منع الإغلاق العرضي عند النقر خارج النافذة
+        document.getElementById('appOverlay').addEventListener('click', function(event) {
+            if (event.target === this) {
+                // يمكنك إضافة رسالة تأكيد هنا إذا أردت
+                // if (confirm('هل تريد إغلاق التطبيق؟')) {
+                //     closeApp();
+                // }
+            }
+        });
+        
+        // فتح النافذة تلقائياً بعد تحميل الصفحة (اختياري)
         window.addEventListener('load', function() {
             console.log('الصفحة جاهزة - نظام إدارة الكوارث');
+            
+            // فحص إذا كان التطبيق يعمل (اختياري)
             checkAppStatus();
         });
+        
+        // دالة للتحقق من حالة التطبيق (اختياري)
+        function checkAppStatus() {
+            fetch(APP_URL, { mode: 'no-cors' })
+                .then(() => {
+                    console.log('التطبيق يعمل بشكل طبيعي');
+                })
+                .catch((error) => {
+                    console.warn('قد يكون هناك مشكلة في التطبيق:', error);
+                });
+        }
     </script>
 </body>
 </html>
